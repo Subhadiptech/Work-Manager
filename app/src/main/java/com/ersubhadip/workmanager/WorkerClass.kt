@@ -21,7 +21,7 @@ class WorkerClass(context: Context,params:WorkerParameters):Worker(context,param
 
             for (i in 0 until stop){
 
-                Log.i("MY_TAG","Success")
+                Log.i("MY_TAG","Uploading Data $i")
             }
 
             val format = SimpleDateFormat("dd/mm/yyyy hh:mm:ss")
