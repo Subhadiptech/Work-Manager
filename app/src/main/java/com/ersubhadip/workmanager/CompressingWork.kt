@@ -11,7 +11,7 @@ class CompressingWork(context: Context, params: WorkerParameters): Worker(contex
 
     override fun doWork(): Result {
 
-        try {
+        return try {
 
             for (i in 0 until 200){
 
@@ -19,12 +19,12 @@ class CompressingWork(context: Context, params: WorkerParameters): Worker(contex
             }
 
 
-            return Result.success()
+            Result.success()
 
 
         }catch (e:Exception){
 
-            return Result.failure()
+            Result.failure()
         }
 
     }

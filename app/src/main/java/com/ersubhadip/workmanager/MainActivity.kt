@@ -48,10 +48,16 @@ class MainActivity : AppCompatActivity() {
 
         val filtering = OneTimeWorkRequest.Builder(FilteringWork::class.java).build()
         val compressing = OneTimeWorkRequest.Builder(CompressingWork::class.java).build()
+        val download = OneTimeWorkRequest.Builder(DownloadParallel::class.java).build()
+
+        //For parallel workers we need to create a mutable List Object
+        val parallel = mutableListOf<OneTimeWorkRequest>()
+        parallel.add(download)
+        parallel.add(filtering)
 
         //Chaining the Workers
         instance
-            .beginWith(filtering)
+            .beginWith(parallel)  //for parallel working start
             .then(compressing)
             .then(oneTimeWorkRequest)
             .enqueue()
