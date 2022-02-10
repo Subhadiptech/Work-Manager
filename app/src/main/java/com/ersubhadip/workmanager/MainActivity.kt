@@ -3,6 +3,7 @@ package com.ersubhadip.workmanager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
+import androidx.work.Constraints
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.ersubhadip.workmanager.databinding.ActivityMainBinding
@@ -24,7 +25,11 @@ class MainActivity : AppCompatActivity() {
 
     fun work(){
         val instance = WorkManager.getInstance(applicationContext)
-        val oneTimeWorkRequest:OneTimeWorkRequest=OneTimeWorkRequest.Builder(WorkerClass::class.java).build()
+        val constraints = Constraints.Builder().setRequiresCharging(true).build()  //Work manager with Constraints
+
+        val oneTimeWorkRequest:OneTimeWorkRequest=OneTimeWorkRequest.Builder(WorkerClass::class.java)
+            .setConstraints(constraints)
+            .build()
 
         instance.enqueue(oneTimeWorkRequest)
 
