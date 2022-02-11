@@ -5,11 +5,9 @@ import android.os.Bundle
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import androidx.lifecycle.Observer
-import androidx.work.Constraints
-import androidx.work.Data
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
+import androidx.work.*
 import com.ersubhadip.workmanager.databinding.ActivityMainBinding
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,13 +23,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.workBtn.setOnClickListener {
-            work()
+//            work()   --> OneTimeWork
+            setPeriodicWorkReq()
         }
 
 
     }
 
-    fun work() {
+    private fun work() {
         val instance = WorkManager.getInstance(applicationContext)
         val constraints =
             Constraints.Builder().setRequiresCharging(true).build()  //Work manager with Constraints
@@ -71,6 +70,12 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, show, LENGTH_LONG).show()
             }
         })
+
+    }
+
+    private fun setPeriodicWorkReq(){
+        val periodicWork = PeriodicWorkRequest.Builder(WorkerClass::class.java,16,TimeUnit.MINUTES).build()
+        WorkManager.getInstance(applicationContext).enqueue(periodicWork)
 
     }
 }
